@@ -5,6 +5,7 @@ import { type AppType } from "next/app";
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
+import { SideNav } from "@/components/side-nav";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,7 +13,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <div className="container mx-auto flex items-start sm:pr-4">
+        <SideNav />
+        <div className="min-h-screen flex-grow border-x">
+          <Component {...pageProps} />
+        </div>
+      </div>
     </SessionProvider>
   );
 };

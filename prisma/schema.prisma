@@ -14,8 +14,9 @@ model Tweet {
     content   String
     createdAt DateTime @default(now())
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    Like      Like[]
+    likes     Like[]
 
+    @@unique([createdAt, id])
     @@index([userId])
 }
 
@@ -26,7 +27,7 @@ model Like {
     user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
     Tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
 
-    @@id([userId, tweetId])
+    @@unique([userId, tweetId])
     @@index([userId])
     @@index([tweetId])
 }
@@ -66,8 +67,10 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    tweet         Tweet[]
-    Like          Like[]
+    tweets        Tweet[]
+    likes         Like[]
+    followers     User[]    @relation(name: "Followers")
+    follows       User[]    @relation(name: "Followers")
 }
 
 model VerificationToken {
